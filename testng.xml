@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <listeners>
+        <listener class-name="org.api.base.MyTestListener"/>
+    </listeners>
+    <test verbose="2" preserve-order="true"
+          name="C:/Users/karthik.rasametti/OneDrive - Feuji Software Solutions Pvt Ltd/apidemoselenium">
+        <classes>
+            <class name="org.api.base.AppTest">
+                <methods>
+                    <include name="testCreateUser"/>
+                    <include name="testGetUserByName"/>
+                    <include name="testUpdateUserByName"/>
+                    <include name="testDeleteUserByName"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
