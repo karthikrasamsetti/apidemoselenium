@@ -8,4 +8,12 @@ public class Routes {
     public static String get_url = base_url + "/user/{username}";
     public static String update_url = base_url + "/user/{username}";
     public static String delete_url = base_url + "/user/{username}";
+
+    public static String booking_base_url = "https://restful-booker.herokuapp.com";
+    //User module
+    public static String auth_post_url= booking_base_url + "/auth";
+    public static String booking_post_url = booking_base_url + "/booking";
+    public static String booking_get_url = booking_base_url + "/booking/{id}";
+    public static String booking_update_url = booking_base_url + "/booking/{id}";
+    public static String booking_delete_url = booking_base_url + "/booking/{id}";
 }

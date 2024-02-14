@@ -7,9 +7,14 @@ import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.api.payload.Booking;
+import org.api.payload.BookingDates;
+import org.api.payload.CreateToken;
 import org.api.payload.User;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -21,8 +26,12 @@ public class Base {
     private static final Logger logger = LogManager.getLogger(Base.class.getName());
     public static ExtentReports extent;
     public User userPayload;
+    public CreateToken createToken;
+    public Booking booking;
     public Faker faker;
     public static ExtentTest test;
+    ObjectMapper objectMapper = new ObjectMapper();
+    String json;
 
     @BeforeTest
     public void setUp() {
@@ -37,10 +46,28 @@ public class Base {
     }
 
     @BeforeClass
-    public void setupData() {
+    public void setupData() throws JsonProcessingException {
         faker = new Faker();
-        userPayload = new User();
 
+        userPayload = new User();
+        createToken = new CreateToken();
+        booking = new Booking();
+//        booking.setFirstname(faker.name().username());
+//        booking.setLastname(faker.name().lastName());
+//        booking.setAdditionalNeeds(faker.lorem().sentence(5));
+//        String checkin = "2024-02-20";
+//        String checkout = "2024-02-25";
+//        booking.setBookingDates(new BookingDates(checkin, checkout));
+//        booking.setTotalPrice(faker.number().randomDigit());
+//        booking.setDepositPaid(faker.bool().bool());
+        booking.setFirstname("John");
+        booking.setLastname("Doe");
+        booking.setTotalPrice(100);
+        booking.setDepositPaid(true);
+        booking.setBookingDates(new BookingDates("2024-02-20", "2024-02-25"));
+        booking.setAdditionalNeeds("Extra pillows");
+        createToken.setUsername("admin");
+        createToken.setPassword("password123");
         userPayload.setId(faker.idNumber().hashCode());
         userPayload.setUsername(faker.name().username());
         userPayload.setFirstName(faker.name().firstName());
@@ -49,6 +76,10 @@ public class Base {
         userPayload.setPassword(faker.internet().password(5, 10));
         userPayload.setPhone(faker.phoneNumber().cellPhone());
         logger.info(userPayload);
+        logger.info(createToken);
+        logger.info(booking);
+        json = objectMapper.writeValueAsString(booking);
+        System.out.println(json);
     }
 
     @AfterMethod
