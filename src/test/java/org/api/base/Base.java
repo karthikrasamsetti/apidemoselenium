@@ -10,6 +10,7 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import io.restassured.RestAssured;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.api.payload.Booking;
@@ -17,10 +18,10 @@ import org.api.payload.BookingDates;
 import org.api.payload.CreateToken;
 import org.api.payload.User;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class Base {
     private static final Logger logger = LogManager.getLogger(Base.class.getName());
@@ -75,6 +76,21 @@ public class Base {
         logger.info(booking);
         json = objectMapper.writeValueAsString(booking);
         System.out.println(json);
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+    }
+
+    @AfterMethod
+    public void afterMethod(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            Throwable throwable = result.getThrowable();
+            StringWriter error = new StringWriter();
+            throwable.printStackTrace(new PrintWriter(error));
+            logger.error(error);
+        }
     }
 
     @AfterMethod

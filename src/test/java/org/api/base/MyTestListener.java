@@ -29,4 +29,5 @@ public class MyTestListener implements ITestListener {
     public void onTestSkipped(ITestResult result) {
         logger.info("Test Skipped: " + result.getName());
     }
+
 }

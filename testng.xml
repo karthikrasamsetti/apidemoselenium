@@ -15,6 +15,15 @@
                     <include name="testDeleteUserByName"/>
                 </methods>
             </class>
+            <class name="org.api.base.ApiTest">
+                <methods>
+                    <include name="testCreateToken"/>
+                    <include name="testCreateBooking"/>
+                    <include name="testGetBookingById"/>
+                    <include name="testUpdateBookingById"/>
+                    <include name="testDeleteBooking"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>
