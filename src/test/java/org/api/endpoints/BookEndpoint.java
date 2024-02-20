@@ -3,20 +3,10 @@ package org.api.endpoints;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.api.payload.Booking;
-import org.api.payload.CreateToken;
 
 import static io.restassured.RestAssured.given;
 
 public class BookEndpoint {
-    public static Response createToken(CreateToken createToken) {
-
-        return given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(createToken)
-                .when()
-                .post(Routes.auth_post_url);
-    }
 
     public static Response createBooking(Booking booking) {
         return given()
@@ -26,13 +16,15 @@ public class BookEndpoint {
                 .when()
                 .post(Routes.booking_post_url);
     }
+
     public static Response getBookingById(int bookingid) {
         return given()
                 .pathParam("id", bookingid)
                 .when()
                 .get(Routes.booking_get_url);
     }
-    public static Response updateBookingById(int bookingid,Booking booking,String token) {
+
+    public static Response updateBookingById(int bookingid, Booking booking, String token) {
         return given()
                 .header("Cookie", "token=" + token)
                 .log().all()
@@ -43,7 +35,7 @@ public class BookEndpoint {
                 .put(Routes.booking_update_url);
     }
 
-    public static Response deleteBooking(int bookingid,String token) {
+    public static Response deleteBooking(int bookingid, String token) {
         return given()
                 .header("Cookie", "token=" + token)
                 .pathParam("id", bookingid)

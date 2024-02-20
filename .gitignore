@@ -40,3 +40,5 @@ build/
 logs/
 reports/
 test-output/
+/allure-results/
+/allure-report/

@@ -15,7 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.api.payload.Booking;
 import org.api.payload.BookingDates;
-import org.api.payload.CreateToken;
 import org.api.payload.User;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -27,7 +26,6 @@ public class Base {
     private static final Logger logger = LogManager.getLogger(Base.class.getName());
     public static ExtentReports extent;
     public User userPayload;
-    public CreateToken createToken;
     public Booking booking;
     public Faker faker;
     public static ExtentTest test;
@@ -51,7 +49,6 @@ public class Base {
         faker = new Faker();
 
         userPayload = new User();
-        createToken = new CreateToken();
         booking = new Booking();
 
         booking.setFirstname(faker.name().username());
@@ -62,8 +59,6 @@ public class Base {
         booking.setBookingDates(new BookingDates(checkin, checkout));
         booking.setTotalPrice(faker.number().randomDigit());
         booking.setDepositPaid(faker.bool().bool());
-        createToken.setUsername("admin");
-        createToken.setPassword("password123");
         userPayload.setId(faker.idNumber().hashCode());
         userPayload.setUsername(faker.name().username());
         userPayload.setFirstName(faker.name().firstName());
@@ -72,10 +67,7 @@ public class Base {
         userPayload.setPassword(faker.internet().password(5, 10));
         userPayload.setPhone(faker.phoneNumber().cellPhone());
         logger.info(userPayload);
-        logger.info(createToken);
         logger.info(booking);
-        json = objectMapper.writeValueAsString(booking);
-        System.out.println(json);
     }
 
     @BeforeMethod
@@ -85,7 +77,7 @@ public class Base {
 
     @AfterMethod
     public void afterMethod(ITestResult result) {
-        if (result.getStatus() == ITestResult.FAILURE) {
+        if (result.getThrowable() != null) {
             Throwable throwable = result.getThrowable();
             StringWriter error = new StringWriter();
             throwable.printStackTrace(new PrintWriter(error));
